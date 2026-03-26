@@ -1,0 +1,22 @@
+---
+const links: Array<{ href: string; label: string }> = [
+	{ href: '#portfolio', label: 'Portfolio' },
+	{ href: '#about', label: 'Sobre mi' },
+	{ href: '#services', label: 'Servicios' },
+	{ href: '#contact', label: 'Contacto' }
+];
+---
+
+<header class="nav">
+	<div class="container nav-wrap">
+		<a href="#" class="brand">MR Films</a>
+		<nav class="nav-links">
+			{
+				links.map((l) => (
+					<a href={l.href}>{l.label}</a>
+				))
+			}
+		</nav>
+	</div>
+</header>
+

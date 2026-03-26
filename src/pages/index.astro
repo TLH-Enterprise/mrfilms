@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import ClientsMarquee from '../components/ClientsMarquee.astro';
+import PortfolioSection from '../components/portfolio/PortfolioSection.astro';
+import AboutSection from '../components/AboutSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>MR Films - Portfolio Audiovisual</title>
+		<meta
+			name="description"
+			content="Portfolio audiovisual premium: video, foto, diseño y producción con IA para marcas, eventos y proyectos automotrices."
+		/>
+	</head>
+	<body>
+		<Nav />
+		<main>
+			<Hero
+				eyebrow="Photography - Videography - Design - AI Production"
+				title="Contenido audiovisual premium para marcas que quieren verse en otro nivel."
+				description="Combino narrativa cinematografica, ritmo comercial y direccion creativa para crear piezas que no solo se ven limpias: venden, posicionan y construyen marca."
+				primaryCta={{ label: 'Ver portfolio', href: '#portfolio' }}
+				secondaryCta={{ label: 'Trabajemos juntos', href: '#contact' }}
+				badges={[
+					{ label: 'Automotriz' },
+					{ label: 'Eventos' },
+					{ label: 'Moda' },
+					{ label: 'Corporativo' },
+					{ label: 'Redes sociales' },
+					{ label: 'Produccion con IA' }
+				]}
+			/>
+
+			<ClientsMarquee />
+			<PortfolioSection />
+			<AboutSection />
+			<ContactSection />
+		</main>
+
+		<Footer />
+	</body>
+</html>

@@ -1,0 +1,52 @@
+---
+import WorkCard from './WorkCard.astro';
+
+const works = [
+	{
+		workType: 'Video Automotriz',
+		title: 'Porsche GT3 - Cinematic Reel',
+		desc: 'Velocidad, detalle y sound design para una pieza corta de alto rendimiento.'
+	},
+	{
+		workType: 'Corporate',
+		title: 'RR Autos - Identidad de marca',
+		desc: 'Video institucional con enfoque en confianza, calidad y conversion.'
+	},
+	{
+		workType: 'Moda / Redes',
+		title: 'Opulent x Streetwear Campaign',
+		desc: 'Contenido vertical optimizado para engagement y consistencia visual.'
+	},
+	{
+		workType: 'Eventos',
+		title: 'Podium BC Event Film',
+		desc: 'Cobertura dinamica con narrativa de energia, comunidad y marca.'
+	},
+	{
+		workType: 'Fotografia',
+		title: 'Coleccion Lifestyle + Automotriz',
+		desc: 'Direccion de arte limpia con enfoque editorial y comercial.'
+	},
+	{
+		workType: 'Produccion con IA',
+		title: 'Concept Film - Legends Never Fade',
+		desc: 'Desarrollo creativo con IA para prototipos visuales y narrativa futurista.'
+	}
+] as const;
+---
+
+<section id="portfolio">
+	<div class="container">
+		<div class="section-head">
+			<h2>Trabajos destacados</h2>
+			<p>Una mezcla de storytelling visual, dinamica comercial y ejecucion tecnica para contenido de alto impacto.</p>
+		</div>
+
+		<div class="grid">
+			{works.map((w) => (
+				<WorkCard workType={w.workType} title={w.title} desc={w.desc} />
+			))}
+		</div>
+	</div>
+</section>
+

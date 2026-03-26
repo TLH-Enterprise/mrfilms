@@ -1,0 +1,38 @@
+---
+const services = [
+	{ left: 'Video Comercial', right: 'Premiere / AE' },
+	{ left: 'Fotografia', right: 'Lightroom / Photoshop' },
+	{ left: 'Diseno Visual', right: 'Illustrator' },
+	{ left: 'Produccion con IA', right: 'Concept + Direction' }
+] as const;
+---
+
+<section id="about">
+	<div class="container about-grid">
+		<article class="card">
+			<div class="section-head">
+				<h2>Sobre mi</h2>
+			</div>
+			<p style="color: var(--muted);">
+				Soy creador audiovisual en Medellin. Mi proceso combina preproduccion clara, ejecucion agil y una
+				edicion enfocada en que cada pieza se vea premium sin perder autenticidad. Trabajo de cerca con cada
+				cliente para transformar ideas en contenido que conecte.
+			</p>
+		</article>
+
+		<article id="services" class="card">
+			<div class="section-head">
+				<h2>Servicios</h2>
+			</div>
+			<div class="skills">
+				{services.map((s) => (
+					<div class="skill">
+						<span>{s.left}</span>
+						<span>{s.right}</span>
+					</div>
+				))}
+			</div>
+		</article>
+	</div>
+</section>
+

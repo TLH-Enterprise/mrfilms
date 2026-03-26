@@ -1,0 +1,18 @@
+---
+export interface WorkCardProps {
+	workType: string;
+	title: string;
+	desc: string;
+}
+
+const { workType, title, desc } = Astro.props as WorkCardProps;
+---
+
+<article class="card work-card">
+	<div class="work-type">{workType}</div>
+	<div>
+		<h3 class="work-title">{title}</h3>
+		<p class="work-desc">{desc}</p>
+	</div>
+</article>
+

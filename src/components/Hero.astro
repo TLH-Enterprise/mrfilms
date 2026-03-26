@@ -1,0 +1,41 @@
+---
+export type HeroBadge = { label: string };
+
+export interface HeroProps {
+	eyebrow: string;
+	title: string;
+	description: string;
+	primaryCta: { label: string; href: string };
+	secondaryCta: { label: string; href: string };
+	badges: HeroBadge[];
+}
+
+const {
+	eyebrow,
+	title,
+	description,
+	primaryCta,
+	secondaryCta,
+	badges
+} = Astro.props as HeroProps;
+---
+
+<section class="hero">
+	<div class="container">
+		<div class="eyebrow">{eyebrow}</div>
+		<h1>{title}</h1>
+		<p>{description}</p>
+
+		<div class="hero-actions">
+			<a href={primaryCta.href} class="btn btn-primary">{primaryCta.label}</a>
+			<a href={secondaryCta.href} class="btn">{secondaryCta.label}</a>
+		</div>
+
+		<div class="badges">
+			{
+				badges.map((b) => <span class="badge">{b.label}</span>)
+			}
+		</div>
+	</div>
+</section>
+
