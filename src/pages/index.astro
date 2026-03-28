@@ -17,10 +17,10 @@ import Footer from '../components/Footer.astro';
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>MR Films - Portfolio Audiovisual</title>
+		<title>El M Films - Portfolio Audiovisual</title>
 		<meta
 			name="description"
-			content="Portfolio audiovisual premium: video, foto, diseño y producción con IA para marcas, eventos y proyectos automotrices."
+			content="El M Films — portfolio audiovisual premium: video, foto, diseño y producción con IA para marcas, eventos y proyectos automotrices."
 		/>
 	</head>
 	<body>
@@ -28,8 +28,12 @@ import Footer from '../components/Footer.astro';
 		<main>
 			<Hero
 				eyebrow="Photography - Videography - Design - AI Production"
-				title="Contenido audiovisual premium para marcas que quieren verse en otro nivel."
-				description="Combino narrativa cinematografica, ritmo comercial y direccion creativa para crear piezas que no solo se ven limpias: venden, posicionan y construyen marca."
+				title="El M Films"
+				description="Contenido audiovisual premium para marcas que quieren verse en otro nivel. Combino narrativa cinematografica, ritmo comercial y direccion creativa para crear piezas que no solo se ven limpias: venden, posicionan y construyen marca."
+				image={{
+					src: '/images/car-image.jpg',
+					alt: 'Produccion audiovisual automotriz — vehiculo en escena cinematografica'
+				}}
 				primaryCta={{ label: 'Ver portfolio', href: '#portfolio' }}
 				secondaryCta={{ label: 'Trabajemos juntos', href: '#contact' }}
 				badges={[
