@@ -24,12 +24,17 @@ html {
 }
 
 body {
-	background: radial-gradient(circle at 20% 0%, #1c1c1c 0%, var(--bg) 38%);
+	background-color: var(--bg);
+	/* Tono mas neutro arriba (evita sensación “cálida” en algunos móviles) */
+	background-image: radial-gradient(circle at 20% 0%, #121212 0%, var(--bg) 42%);
 	color: var(--text);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 	line-height: 1.5;
 	min-height: 100%;
+	min-height: 100dvh;
 	overflow-x: hidden;
+	padding-left: env(safe-area-inset-left, 0px);
+	padding-right: env(safe-area-inset-right, 0px);
 }
 
 a {
@@ -54,6 +59,10 @@ section {
 	background: color-mix(in srgb, var(--bg) 82%, transparent);
 	border-bottom: 1px solid var(--line);
 	transition: transform 0.28s ease, opacity 0.28s ease;
+	/* iPhone notch / barra de estado: relleno seguro y sin “grieta” de color */
+	padding-top: env(safe-area-inset-top, 0px);
+	padding-left: env(safe-area-inset-left, 0px);
+	padding-right: env(safe-area-inset-right, 0px);
 }
 
 .nav--hidden {
@@ -65,7 +74,16 @@ section {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 0.75rem;
 	padding: 1rem 0;
+}
+
+/* Contenedor del menú: en desktop alinea a la derecha; en mobile permite scroll horizontal */
+.nav-scroll {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	justify-content: flex-end;
 }
 
 .brand {
@@ -169,13 +187,16 @@ section {
 	object-fit: cover;
 	object-position: center;
 	display: block;
+	/* Un poco mas de luz en la foto (el scrim sigue garantizando contraste del texto) */
+	filter: brightness(1.08) saturate(1.03);
 }
 
 .hero-scrim {
 	position: absolute;
 	inset: 0;
 	z-index: 1;
-	background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.72) 100%);
+	/* Menos opacidad que antes: la imagen se percibe mas luminosa */
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.55) 100%);
 	pointer-events: none;
 }
 
@@ -988,27 +1009,55 @@ h2 {
 		padding-top: 1rem;
 	}
 
+	.nav {
+		background: #070707;
+		backdrop-filter: none;
+	}
+
 	.nav-wrap {
-		gap: 0.9rem;
-		padding: 0.8rem 0;
+		gap: 0.65rem;
+		padding: 0.65rem 0 0.75rem;
+	}
+
+	.brand {
+		flex-shrink: 0;
 	}
 
 	.brand-logo {
-		height: 24px;
+		height: 22px;
+	}
+
+	/* Scroll horizontal: el body sigue sin overflow-x global, pero aquí sí */
+	.nav-scroll {
+		justify-content: flex-start;
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+		overscroll-behavior-x: contain;
+		scrollbar-width: none;
+		touch-action: pan-x;
+	}
+
+	.nav-scroll::-webkit-scrollbar {
+		display: none;
+		height: 0;
 	}
 
 	.nav-links {
 		display: flex;
-		gap: 0.85rem;
-		font-size: 0.75rem;
-		letter-spacing: 0.08em;
+		gap: 0.65rem;
+		font-size: 0.68rem;
+		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		flex-wrap: nowrap;
+		width: max-content;
+		padding-right: 0.25rem;
 	}
 
 	.nav-link {
 		color: #c9c9c9;
 		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	.about-page-grid {

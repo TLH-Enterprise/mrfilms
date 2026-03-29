@@ -28,21 +28,23 @@ function isActive(href: string): boolean {
 				decoding="async"
 			/>
 		</a>
-		<nav class="nav-links" aria-label="Principal">
-			{
-				links.map((l) => (
-					<a href={l.href} class:list={['nav-link', isActive(l.href) && 'nav-link--active']}>
-						{l.label}
-					</a>
-				))
-			}
-		</nav>
+		<div class="nav-scroll">
+			<nav class="nav-links" aria-label="Principal">
+				{
+					links.map((l) => (
+						<a href={l.href} class:list={['nav-link', isActive(l.href) && 'nav-link--active']}>
+							{l.label}
+						</a>
+					))
+				}
+			</nav>
+		</div>
 	</div>
 </header>
 
 <script>
 	(() => {
-		const nav = document.querySelector<HTMLElement>('[data-mobile-nav]');
+		const nav = document.querySelector('[data-mobile-nav]');
 		if (!nav) return;
 
 		const mobileQuery = window.matchMedia('(max-width: 900px)');
