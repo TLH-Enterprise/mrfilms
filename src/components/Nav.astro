@@ -5,7 +5,6 @@ const links: Array<{ href: string; label: string }> = [
 	{ href: '/', label: 'Inicio' },
 	{ href: '/#portfolio', label: 'Portfolio' },
 	{ href: '/sobre-mi', label: 'Sobre mi' },
-	{ href: '/#services', label: 'Servicios' },
 	{ href: '/#contact', label: 'Contacto' }
 ];
 
@@ -16,7 +15,7 @@ function isActive(href: string): boolean {
 }
 ---
 
-<header class="nav">
+<header class="nav" data-mobile-nav>
 	<div class="container nav-wrap">
 		<a href="/" class="brand">
 			<img
@@ -40,3 +39,53 @@ function isActive(href: string): boolean {
 		</nav>
 	</div>
 </header>
+
+<script>
+	(() => {
+		const nav = document.querySelector<HTMLElement>('[data-mobile-nav]');
+		if (!nav) return;
+
+		const mobileQuery = window.matchMedia('(max-width: 900px)');
+		let lastY = window.scrollY;
+		let ticking = false;
+
+		const onScroll = () => {
+			if (!mobileQuery.matches) {
+				nav.classList.remove('nav--hidden');
+				lastY = window.scrollY;
+				return;
+			}
+
+			const y = window.scrollY;
+			const delta = y - lastY;
+
+			// En top siempre visible
+			if (y <= 8) {
+				nav.classList.remove('nav--hidden');
+				lastY = y;
+				return;
+			}
+
+			// Scroll abajo: ocultar | scroll arriba: mostrar
+			if (delta > 6) nav.classList.add('nav--hidden');
+			else if (delta < -6) nav.classList.remove('nav--hidden');
+
+			lastY = y;
+		};
+
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (ticking) return;
+				ticking = true;
+				window.requestAnimationFrame(() => {
+					onScroll();
+					ticking = false;
+				});
+			},
+			{ passive: true }
+		);
+
+		window.addEventListener('resize', onScroll, { passive: true });
+	})();
+</script>
