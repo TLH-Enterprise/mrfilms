@@ -1,20 +1,42 @@
 ---
-const instagramHref = 'https://instagram.com';
-const waHref = 'https://wa.me/573000000000';
+const contact = {
+	email: 'tuemail@correo.com',
+	whatsapp: '+57 300 000 0000',
+	instagramHandle: '@mrfilms_',
+	instagramHref: 'https://instagram.com/mrfilms_'
+};
 ---
 
 <section id="contact" class="contact">
 	<div class="container">
-		<h2>Hagamos algo limpio y potente.</h2>
-		<p>
-			Disponible para proyectos locales y globales. Si tienes una idea, te ayudo a convertirla en
-			contenido que se sienta premium y funcione para tu marca.
-		</p>
+		<div class="contact-cta">
+			<p class="contact-cta-eyebrow">Available for • Automotive • Brands • Events</p>
+			<h2 class="contact-cta-title">Let's build something clean.</h2>
+			<p class="contact-cta-ig">IG: {contact.instagramHandle}</p>
+		</div>
 
-		<div class="hero-actions" style="justify-content: center;">
-			<a class="btn btn-primary" href="mailto:tuemail@correo.com">Enviar email</a>
-			<a class="btn" href={instagramHref} target="_blank" rel="noreferrer">Instagram</a>
-			<a class="btn" href={waHref} target="_blank" rel="noreferrer">WhatsApp</a>
+		<div class="contact-main">
+			<div class="contact-main-copy">
+				<h3 class="contact-main-title">Contact</h3>
+				<p>Disponible para proyectos locales y globales.</p>
+			</div>
+
+			<div class="contact-main-data">
+				<div class="contact-item">
+					<p class="contact-label">Email</p>
+					<a href={`mailto:${contact.email}`}>{contact.email}</a>
+				</div>
+				<div class="contact-item">
+					<p class="contact-label">WhatsApp</p>
+					<a href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer">
+						{contact.whatsapp}
+					</a>
+				</div>
+				<div class="contact-item">
+					<p class="contact-label">Instagram</p>
+					<a href={contact.instagramHref} target="_blank" rel="noreferrer">{contact.instagramHandle}</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>

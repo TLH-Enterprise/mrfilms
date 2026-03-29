@@ -1,52 +1,108 @@
 ---
-import WorkCard from './WorkCard.astro';
+type HighlightVideo = {
+  title: string;
+  videoSrc: string;
+  posterSrc: string;
+};
 
-const works = [
-	{
-		workType: 'Video Automotriz',
-		title: 'Porsche GT3 - Cinematic Reel',
-		desc: 'Velocidad, detalle y sound design para una pieza corta de alto rendimiento.'
-	},
-	{
-		workType: 'Corporate',
-		title: 'RR Autos - Identidad de marca',
-		desc: 'Video institucional con enfoque en confianza, calidad y conversion.'
-	},
-	{
-		workType: 'Moda / Redes',
-		title: 'Opulent x Streetwear Campaign',
-		desc: 'Contenido vertical optimizado para engagement y consistencia visual.'
-	},
-	{
-		workType: 'Eventos',
-		title: 'Podium BC Event Film',
-		desc: 'Cobertura dinamica con narrativa de energia, comunidad y marca.'
-	},
-	{
-		workType: 'Fotografia',
-		title: 'Coleccion Lifestyle + Automotriz',
-		desc: 'Direccion de arte limpia con enfoque editorial y comercial.'
-	},
-	{
-		workType: 'Produccion con IA',
-		title: 'Concept Film - Legends Never Fade',
-		desc: 'Desarrollo creativo con IA para prototipos visuales y narrativa futurista.'
-	}
-] as const;
+type UpcomingPreview = {
+  title: string;
+  category: string;
+  previewSrc: string;
+};
+
+// Cambia estas 3 entradas por tus mejores videos (paths en /public/videos/highlights/...)
+const highlightVideos: HighlightVideo[] = [
+  {
+    title: "Podium BC Event",
+    videoSrc: "/videos/highlights/podium-bc-event.mp4",
+    posterSrc: "/images/about-me/03.jpg",
+  },
+  {
+    title: "SF90 x G63 BRABUS",
+    videoSrc: "/videos/highlights/sf90-g63-brabus.mp4",
+    posterSrc: "/images/about-me/04.jpg",
+  },
+  {
+    title: "Legends Never Fade - AI Film",
+    videoSrc: "/videos/highlights/legends-never-fade.mp4",
+    posterSrc: "/images/about-me/05.jpg",
+  },
+];
+
+const upcomingPreviews: UpcomingPreview[] = [
+  {
+    title: "Túnica en Dubai - Emmus",
+    category: "Video Musical",
+    previewSrc: "/images/about-me/01.jpg",
+  },
+  {
+    title: "Rubia - Jhayozbb",
+    category: "Video Musical",
+    previewSrc: "/images/about-me/02.jpg",
+  },
+  {
+    title: "Verte de nuevo - RiozG",
+    category: "Video Musical",
+    previewSrc: "/images/about-me/06.jpg",
+  },
+];
 ---
 
 <section id="portfolio">
-	<div class="container">
-		<div class="section-head">
-			<h2>Trabajos destacados</h2>
-			<p>Una mezcla de storytelling visual, dinamica comercial y ejecucion tecnica para contenido de alto impacto.</p>
-		</div>
+  <div class="container">
+    <div class="portfolio-headline-action">
+      <a class="portfolio-pill" href="#contact">Ver portfolio</a>
+    </div>
 
-		<div class="grid">
-			{works.map((w) => (
-				<WorkCard workType={w.workType} title={w.title} desc={w.desc} />
-			))}
-		</div>
-	</div>
+    <div class="portfolio-highlights">
+      {
+        highlightVideos.map((video) => (
+          <article class="portfolio-video-card">
+            <div class="portfolio-video-frame">
+              <video
+                class="portfolio-video"
+                src={video.videoSrc}
+                poster={video.posterSrc}
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                controls
+              >
+                Tu navegador no soporta video HTML5.
+              </video>
+            </div>
+            <h3 class="portfolio-video-title">{video.title}</h3>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="portfolio-upcoming">
+      <div class="section-head">
+        <h3 class="portfolio-upcoming-title">Proximamente</h3>
+      </div>
+
+      <div class="portfolio-upcoming-grid">
+        {
+          upcomingPreviews.map((item) => (
+            <article class="portfolio-upcoming-card">
+              <img
+                class="portfolio-upcoming-image"
+                src={item.previewSrc}
+                alt={`${item.title} - preview`}
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="portfolio-upcoming-meta">
+                <p class="portfolio-upcoming-category">{item.category}</p>
+                <h4 class="portfolio-upcoming-item-title">{item.title}</h4>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
 </section>
-

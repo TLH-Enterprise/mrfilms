@@ -1,0 +1,33 @@
+---
+const clients = [
+	'RR AUTOS',
+	'WESTCOL',
+	'ALEMAUTOS',
+	'OPULENT',
+	'EXOTIC RENT A CAR',
+	'RYAN CASTRO',
+	'PODIUM BC'
+];
+---
+
+<section class="clients-showcase" aria-label="Clientes">
+	<div class="container clients-showcase__inner">
+		<div class="clients-showcase__left">
+			<p class="clients-showcase__eyebrow">Trabajos</p>
+			<h2 class="clients-showcase__title">Clientes</h2>
+			<p class="clients-showcase__desc">Algunos proyectos con marcas y personas.</p>
+		</div>
+
+		<div class="clients-showcase__rail" aria-hidden="true">
+			<div class="clients-showcase__track">
+				{clients.map((name) => (
+					<span class="clients-chip">{name}</span>
+				))}
+				{clients.map((name) => (
+					<span class="clients-chip">{name}</span>
+				))}
+			</div>
+		</div>
+	</div>
+</section>
+
