@@ -1,0 +1,149 @@
+---
+import '../styles/global.css';
+
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { portfolioWorks } from '../data/portfolio-works';
+
+const title = 'Portfolio | MR Films';
+const description =
+	'MR Films — selección de trabajos: video, foto, diseño y producción con IA.';
+
+const filters = [
+	{ id: 'all', label: 'Todos' },
+	{ id: 'video', label: 'Video' },
+	{ id: 'foto', label: 'Foto' },
+	{ id: 'diseno', label: 'Diseño' },
+	{ id: 'ia', label: 'IA' }
+] as const;
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="theme-color" content="#070707" />
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#070707" />
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#070707" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body>
+		<Nav />
+		<main class="portfolio-page">
+			<div class="container portfolio-page-inner">
+				<header class="portfolio-page-header">
+					<h1 class="portfolio-page-title">Portfolio</h1>
+					<p class="portfolio-page-lead">Una selección de trabajos por categorías.</p>
+
+					<div class="portfolio-filters" role="tablist" aria-label="Filtrar trabajos">
+						{
+							filters.map((f, i) => (
+								<button
+									type="button"
+									class:list={['portfolio-filter-btn', i === 0 && 'is-active']}
+									data-filter={f.id}
+									role="tab"
+									aria-selected={i === 0 ? 'true' : 'false'}
+								>
+									{f.label}
+								</button>
+							))
+						}
+					</div>
+				</header>
+
+				<div class="portfolio-works-grid" id="portfolio-works-grid">
+					{
+						portfolioWorks.map((w) => (
+							<article class="portfolio-work-card" data-category={w.category}>
+								{w.href ? (
+									<a
+										class="portfolio-work-link"
+										href={w.href}
+										target="_blank"
+										rel="noreferrer"
+									>
+										<div class="portfolio-work-thumb">
+											<img
+												src={w.thumb}
+												alt=""
+												loading="lazy"
+												decoding="async"
+												width="640"
+												height="360"
+											/>
+											{w.category === 'video' && (
+												<span class="portfolio-work-play" aria-hidden="true" />
+											)}
+										</div>
+										<div class="portfolio-work-body">
+											<h2 class="portfolio-work-title">{w.title}</h2>
+											<p class="portfolio-work-subtitle">{w.subtitle}</p>
+											<p class="portfolio-work-tags">{w.tags}</p>
+										</div>
+									</a>
+								) : (
+									<div class="portfolio-work-link">
+										<div class="portfolio-work-thumb">
+											<img
+												src={w.thumb}
+												alt=""
+												loading="lazy"
+												decoding="async"
+												width="640"
+												height="360"
+											/>
+											{w.category === 'video' && (
+												<span class="portfolio-work-play" aria-hidden="true" />
+											)}
+										</div>
+										<div class="portfolio-work-body">
+											<h2 class="portfolio-work-title">{w.title}</h2>
+											<p class="portfolio-work-subtitle">{w.subtitle}</p>
+											<p class="portfolio-work-tags">{w.tags}</p>
+										</div>
+									</div>
+								)}
+							</article>
+						))
+					}
+				</div>
+
+				<p class="portfolio-page-back">
+					<a href="/" class="about-page-back-link">← Volver al inicio</a>
+				</p>
+			</div>
+		</main>
+		<Footer />
+
+		<script>
+			const buttons = document.querySelectorAll('[data-filter]');
+			const cards = document.querySelectorAll('.portfolio-work-card');
+
+			buttons.forEach((btn) => {
+				if (!(btn instanceof HTMLButtonElement)) return;
+				btn.addEventListener('click', () => {
+					const filter = btn.dataset.filter || 'all';
+
+					buttons.forEach((b) => {
+						if (!(b instanceof HTMLButtonElement)) return;
+						const on = b === btn;
+						b.classList.toggle('is-active', on);
+						b.setAttribute('aria-selected', on ? 'true' : 'false');
+					});
+
+					cards.forEach((card) => {
+						if (!(card instanceof HTMLElement)) return;
+						const cat = card.dataset.category || '';
+						const show = filter === 'all' || cat === filter;
+						card.hidden = !show;
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
