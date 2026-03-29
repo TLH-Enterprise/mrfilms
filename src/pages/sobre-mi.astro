@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import AboutMeCarousel from '../components/AboutMeCarousel.astro';
+import { getAboutMeImageUrls } from '../lib/about-me-images';
+
+const aboutImages = getAboutMeImageUrls();
+const title = 'Sobre mi | MR Films';
+const description =
+	'MR Films — estudio audiovisual en Medellín. Historias con estética limpia y cinematográfica.';
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body>
+		<Nav />
+		<main class="page-about">
+			<div class="container about-page-inner">
+				<header class="about-page-header">
+					<h1 class="about-page-title">Sobre mí</h1>
+				</header>
+
+				<div class="about-page-grid">
+					<div class="about-page__media">
+						<AboutMeCarousel images={aboutImages} />
+					</div>
+
+					<div class="about-page__copy">
+						<h2 class="about-page-brand">MR Films</h2>
+						<div class="about-page-body">
+							<p>
+								MR Films es una marca audiovisual basada en Medellín, enfocada en contar historias con una
+								estética limpia y cinematográfica.
+							</p>
+							<p>
+								Nacimos en el mundo automotriz, donde el detalle y el movimiento lo son todo, y hoy
+								también trabajamos con marcas, eventos y proyectos que necesitan una identidad visual clara
+								y moderna.
+							</p>
+							<p>
+								Nuestro objetivo es simple: que tu contenido se vea premium y se sienta real.
+							</p>
+						</div>
+						<p class="about-page-back">
+							<a href="/" class="about-page-back-link">← Volver al inicio</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

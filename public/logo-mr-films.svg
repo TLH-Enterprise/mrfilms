@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" role="img" aria-labelledby="logoTitle">
+	<title id="logoTitle">MR Films</title>
+	<text
+		x="0"
+		y="30"
+		font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+		font-size="26"
+		font-weight="700"
+		fill="#f7f7f7"
+		letter-spacing="0.02em"
+	>MR</text>
+	<line x1="56" y1="9" x2="56" y2="33" stroke="#3a3a3a" stroke-width="1" />
+	<text
+		x="66"
+		y="24"
+		font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+		font-size="9.5"
+		font-weight="600"
+		fill="#9a9a9a"
+		letter-spacing="0.32em"
+	>FILMS</text>
+</svg>

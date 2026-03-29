@@ -1,22 +1,42 @@
 ---
+const pathname = Astro.url.pathname;
+
 const links: Array<{ href: string; label: string }> = [
-	{ href: '#portfolio', label: 'Portfolio' },
-	{ href: '#about', label: 'Sobre mi' },
-	{ href: '#services', label: 'Servicios' },
-	{ href: '#contact', label: 'Contacto' }
+	{ href: '/', label: 'Inicio' },
+	{ href: '/#portfolio', label: 'Portfolio' },
+	{ href: '/sobre-mi', label: 'Sobre mi' },
+	{ href: '/#services', label: 'Servicios' },
+	{ href: '/#contact', label: 'Contacto' }
 ];
+
+function isActive(href: string): boolean {
+	if (href === '/sobre-mi') return pathname === '/sobre-mi';
+	if (href === '/') return pathname === '/';
+	return false;
+}
 ---
 
 <header class="nav">
 	<div class="container nav-wrap">
-		<a href="#" class="brand">El M Films</a>
-		<nav class="nav-links">
+		<a href="/" class="brand">
+			<img
+				class="brand-logo"
+				src="/logo-mr-films.svg"
+				alt="MR Films"
+				width="200"
+				height="40"
+				loading="eager"
+				decoding="async"
+			/>
+		</a>
+		<nav class="nav-links" aria-label="Principal">
 			{
 				links.map((l) => (
-					<a href={l.href}>{l.label}</a>
+					<a href={l.href} class:list={['nav-link', isActive(l.href) && 'nav-link--active']}>
+						{l.label}
+					</a>
 				))
 			}
 		</nav>
 	</div>
 </header>
-

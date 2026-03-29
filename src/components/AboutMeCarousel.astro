@@ -1,0 +1,137 @@
+---
+interface Props {
+	images: string[];
+}
+
+const { images } = Astro.props;
+const hasMany = images.length > 1;
+const hasOne = images.length === 1;
+---
+
+<div class="about-carousel" data-about-carousel={hasMany ? true : undefined}>
+	{
+		hasOne && (
+			<div class="about-carousel__viewport about-carousel__viewport--single">
+				<img
+					class="about-carousel__single"
+					src={images[0]}
+					alt="MR Films — sobre el estudio"
+					loading="eager"
+					decoding="async"
+					width="800"
+					height="1067"
+				/>
+			</div>
+		)
+	}
+	{
+		hasMany && (
+			<div class="about-carousel__viewport" aria-roledescription="carrusel" aria-live="polite">
+				<img
+					class="about-carousel__layer about-carousel__layer--a"
+					alt=""
+					loading="eager"
+					decoding="async"
+					width="800"
+					height="1067"
+				/>
+				<img
+					class="about-carousel__layer about-carousel__layer--b"
+					alt=""
+					loading="lazy"
+					decoding="async"
+					width="800"
+					height="1067"
+				/>
+				<div class="about-carousel__dots" data-dots aria-hidden="true" />
+			</div>
+		)
+	}
+	{
+		!hasOne && !hasMany && (
+			<div class="about-carousel__viewport about-carousel__viewport--empty">
+				<p class="about-carousel__empty-text">
+					Añade fotos en <code>public/images/about-me</code> para verlas aqui.
+				</p>
+			</div>
+		)
+	}
+</div>
+
+{
+	hasMany && (
+		<script define:vars={{ imagePaths: images }}>
+			function initAboutCarousel() {
+				const list = imagePaths;
+				if (!list || list.length < 2) return;
+
+				const root = document.querySelector('[data-about-carousel]');
+				const a = root?.querySelector('.about-carousel__layer--a');
+				const b = root?.querySelector('.about-carousel__layer--b');
+				const dotsHost = root?.querySelector('[data-dots]');
+				if (!root || !(a instanceof HTMLImageElement) || !(b instanceof HTMLImageElement) || !dotsHost) {
+					return;
+				}
+
+				const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+				const intervalMs = reduced ? 0 : 5000;
+
+				let idx = 0;
+				let showingA = true;
+
+				dotsHost.innerHTML = '';
+				list.forEach(() => {
+					const dot = document.createElement('span');
+					dot.className = 'about-carousel__dot';
+					dotsHost.appendChild(dot);
+				});
+				const dotEls = () => [...dotsHost.querySelectorAll('.about-carousel__dot')];
+
+				function setActiveDot(i) {
+					dotEls().forEach((d, j) => d.classList.toggle('is-active', j === i));
+				}
+
+				function showNext() {
+					idx = (idx + 1) % list.length;
+					const incoming = showingA ? b : a;
+					const outgoing = showingA ? a : b;
+					incoming.removeAttribute('src');
+					incoming.src = list[idx] ?? '';
+					incoming.onload = () => {
+						incoming.classList.add('is-visible');
+						outgoing.classList.remove('is-visible');
+						setActiveDot(idx);
+						showingA = !showingA;
+					};
+				}
+
+				a.src = list[0] ?? '';
+				a.classList.add('is-visible');
+				b.removeAttribute('src');
+				setActiveDot(0);
+
+				let timer;
+				function start() {
+					if (intervalMs <= 0) return;
+					timer = setInterval(showNext, intervalMs);
+				}
+				function stop() {
+					if (timer) clearInterval(timer);
+					timer = undefined;
+				}
+
+				start();
+				document.addEventListener('visibilitychange', () => {
+					if (document.hidden) stop();
+					else start();
+				});
+			}
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initAboutCarousel, { once: true });
+			} else {
+				initAboutCarousel();
+			}
+		</script>
+	)
+}

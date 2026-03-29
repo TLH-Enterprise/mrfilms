@@ -1,5 +1,6 @@
 {
-  "name": "el-m-films",
+  "name": "mrfilms",
+  "description": "MR Films — portfolio audiovisual (Astro)",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,7 +10,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "icons": "magick -background none public/favicon-source.svg -define icon:auto-resize=16,24,32,48,64,128,256 public/favicon.ico"
   },
   "dependencies": {
     "astro": "^6.1.0"

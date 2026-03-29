@@ -57,9 +57,33 @@ section {
 }
 
 .brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
 	font-weight: 700;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
+}
+
+.brand-logo {
+	display: block;
+	height: 32px;
+	width: auto;
+}
+
+.footer-brand {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+}
+
+.footer-logo {
+	display: block;
+	height: 22px;
+	width: auto;
+	opacity: 0.9;
 }
 
 .nav-links {
@@ -67,6 +91,22 @@ section {
 	gap: 1.15rem;
 	color: var(--muted);
 	font-size: 0.95rem;
+	align-items: center;
+}
+
+.nav-link {
+	transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+	color: var(--text);
+}
+
+.nav-link--active {
+	color: var(--text);
+	font-weight: 600;
+	border-bottom: 1px solid var(--accent);
+	padding-bottom: 0.15rem;
 }
 
 .hero {
@@ -335,6 +375,180 @@ h2 {
 	color: var(--muted);
 }
 
+.about-more {
+	margin-top: 1.35rem;
+}
+
+.about-more-link {
+	color: var(--muted);
+	font-size: 0.95rem;
+	font-weight: 500;
+	border-bottom: 1px solid transparent;
+	transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.about-more-link:hover {
+	color: var(--text);
+	border-bottom-color: var(--line);
+}
+
+/* Pagina Sobre mi */
+.page-about {
+	min-height: 60vh;
+}
+
+.about-page-inner {
+	padding-bottom: 4rem;
+}
+
+.about-page-header {
+	padding: 2.5rem 0 1.5rem;
+	border-bottom: 1px solid var(--line);
+}
+
+.about-page-title {
+	font-size: clamp(2rem, 6vw, 3.25rem);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	margin: 0;
+	max-width: none;
+}
+
+.about-page-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+	gap: clamp(2rem, 5vw, 3.75rem);
+	align-items: start;
+	padding: 3rem 0 2rem;
+}
+
+.about-page-brand {
+	font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	margin: 0 0 1.25rem;
+}
+
+.about-page-body {
+	display: flex;
+	flex-direction: column;
+	gap: 1.1rem;
+	color: var(--muted);
+	font-size: 1.02rem;
+	line-height: 1.65;
+	max-width: 52ch;
+}
+
+.about-page-body p {
+	margin: 0;
+}
+
+.about-page-back {
+	margin-top: 2rem;
+}
+
+.about-page-back-link {
+	color: var(--muted);
+	font-size: 0.95rem;
+	transition: color 0.2s ease;
+}
+
+.about-page-back-link:hover {
+	color: var(--text);
+}
+
+/* Carrusel About */
+.about-carousel {
+	width: 100%;
+}
+
+.about-carousel__viewport {
+	position: relative;
+	aspect-ratio: 3 / 4;
+	width: 100%;
+	max-height: min(72vh, 640px);
+	border-radius: var(--radius);
+	overflow: hidden;
+	border: 1px solid var(--line);
+	background: var(--surface);
+}
+
+.about-carousel__viewport--single {
+	max-height: min(72vh, 640px);
+}
+
+.about-carousel__viewport--empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 280px;
+	aspect-ratio: 3 / 4;
+	background: linear-gradient(180deg, var(--surface-2), var(--surface));
+}
+
+.about-carousel__empty-text {
+	color: var(--muted);
+	font-size: 0.95rem;
+	text-align: center;
+	padding: 1.5rem;
+	max-width: 36ch;
+}
+
+.about-carousel__empty-text code {
+	font-size: 0.82em;
+	color: var(--text);
+}
+
+.about-carousel__single {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: cover;
+	object-position: center;
+}
+
+.about-carousel__layer {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	opacity: 0;
+	transition: opacity 1s ease;
+	z-index: 0;
+}
+
+.about-carousel__layer.is-visible {
+	opacity: 1;
+	z-index: 1;
+}
+
+.about-carousel__dots {
+	position: absolute;
+	bottom: 0.85rem;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 2;
+	display: flex;
+	gap: 0.45rem;
+	pointer-events: none;
+}
+
+.about-carousel__dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.35);
+	transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.about-carousel__dot.is-active {
+	background: var(--text);
+	transform: scale(1.15);
+}
+
 .contact {
 	text-align: center;
 	border-top: 1px solid var(--line);
@@ -364,6 +578,18 @@ h2 {
 
 	.nav-links {
 		display: none;
+	}
+
+	.about-page-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.about-page__copy {
+		order: 2;
+	}
+
+	.about-page__media {
+		order: 1;
 	}
 }
 
