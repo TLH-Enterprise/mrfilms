@@ -7,6 +7,8 @@
 	--line: #222;
 	--accent: #e8e8e8;
 	--radius: 16px;
+	/* Altura aproximada de la barra superior (logo + padding) para el primer viewport */
+	--nav-height: 4rem;
 }
 
 * {
@@ -114,13 +116,35 @@ section {
 	border-bottom: 1px solid var(--line);
 }
 
+/* Hero con imagen: sin padding/borde extra del .hero genérico */
 .hero--with-bg {
+	padding: 0;
+	border-bottom: none;
 	position: relative;
 	overflow: hidden;
-	padding: clamp(4.5rem, 12vh, 7rem) 0 clamp(4rem, 10vh, 6rem);
-	min-height: min(88vh, 920px);
+}
+
+/* Primer pantalla: hero + carrusel de clientes caben en el viewport inicial */
+.home-intro {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	min-height: calc(100vh - var(--nav-height));
+	min-height: calc(100svh - var(--nav-height));
+}
+
+.home-intro .hero--with-bg {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.home-intro .hero-cover {
+	flex: 1 1 auto;
+	min-height: 0;
+	width: 100%;
+	padding-top: clamp(2rem, 6vh, 3.75rem);
+	padding-bottom: clamp(0.75rem, 2vh, 1.5rem);
 }
 
 .hero-bg {
@@ -150,6 +174,30 @@ section {
 	z-index: 2;
 }
 
+.hero-cover {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	min-height: min(70vh, 720px);
+	width: 100%;
+	padding-top: clamp(4rem, 10vh, 6rem);
+	padding-bottom: clamp(1.25rem, 3vh, 2rem);
+}
+
+/* Cuando va dentro de .home-intro, el flex asigna altura (regla anterior no aplica min-height fijo) */
+.home-intro .hero-cover {
+	min-height: unset;
+}
+
+.hero-cover__main {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
 .hero-inner--center {
 	text-align: center;
 	display: flex;
@@ -166,25 +214,8 @@ section {
 	letter-spacing: 0.04em;
 }
 
-.hero-inner--center .hero-lead {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.hero-inner--center .hero-actions {
-	justify-content: center;
-}
-
-.hero-inner--center .badges {
-	justify-content: center;
-}
-
-.hero-eyebrow {
-	color: rgba(255, 255, 255, 0.88);
-	margin-top: 0.85rem;
+.hero--with-bg .hero-inner--center h1 {
 	margin-bottom: 0;
-	font-weight: 500;
-	letter-spacing: 0.18em;
 }
 
 .hero--with-bg h1 {
@@ -192,32 +223,99 @@ section {
 	text-wrap: balance;
 }
 
-.hero--with-bg .hero-lead {
-	color: rgba(255, 255, 255, 0.82);
-	max-width: 48ch;
-	margin-top: 1.25rem;
+/* Igual que el hero anterior: .eyebrow + .hero-eyebrow (gana a .eyebrow suelto) */
+.hero--with-bg .eyebrow.hero-eyebrow {
+	color: rgba(255, 255, 255, 0.88);
+	margin-top: 0.85rem;
+	margin-bottom: 0;
+	font-weight: 500;
+	letter-spacing: 0.18em;
 }
 
-.hero--with-bg .btn {
-	border-color: rgba(255, 255, 255, 0.35);
+.hero-inner--center .eyebrow.hero-eyebrow {
+	max-width: min(52ch, 92vw);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Indicador SCROLL (hero) */
+.hero-scroll {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.85rem;
+	margin-top: auto;
+	text-decoration: none;
+	color: rgba(255, 255, 255, 0.88);
+	font-size: 0.68rem;
+	font-weight: 500;
+	letter-spacing: 0.42em;
+	text-indent: 0.42em;
+	text-transform: uppercase;
+	transition: color 0.25s ease;
+}
+
+.hero-scroll:hover {
 	color: #fff;
-	background: rgba(0, 0, 0, 0.2);
 }
 
-.hero--with-bg .btn-primary {
-	background: #fff;
-	color: #111;
-	border-color: #fff;
+.hero-scroll:focus-visible {
+	outline: 1px solid rgba(255, 255, 255, 0.5);
+	outline-offset: 6px;
+	border-radius: 2px;
 }
 
-.hero--with-bg .btn-primary:hover {
-	filter: brightness(0.95);
+.hero-scroll__line {
+	width: 1px;
+	height: 32px;
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(255, 255, 255, 0.55) 45%,
+		rgba(255, 255, 255, 0.85) 100%
+	);
+	transform-origin: center top;
+	animation: heroScrollLine 2.2s ease-in-out infinite;
 }
 
-.hero--with-bg .badge {
-	border-color: rgba(255, 255, 255, 0.28);
-	color: rgba(255, 255, 255, 0.92);
-	background: rgba(0, 0, 0, 0.15);
+.hero-scroll__text {
+	animation: heroScrollBob 2.2s ease-in-out infinite;
+}
+
+@keyframes heroScrollLine {
+	0%,
+	100% {
+		transform: scaleY(0.65);
+		opacity: 0.55;
+	}
+	50% {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+}
+
+@keyframes heroScrollBob {
+	0%,
+	100% {
+		transform: translateY(0);
+		opacity: 0.85;
+	}
+	50% {
+		transform: translateY(8px);
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-scroll__line,
+	.hero-scroll__text {
+		animation: none;
+	}
+
+	.hero-scroll__line {
+		opacity: 0.75;
+		transform: scaleY(1);
+	}
 }
 
 .eyebrow {
@@ -300,6 +398,11 @@ h2 {
 	overflow: hidden;
 	white-space: nowrap;
 	color: #d6d6d6;
+	flex-shrink: 0;
+}
+
+.home-intro .clients {
+	border-top: 1px solid var(--line);
 }
 
 .marquee {

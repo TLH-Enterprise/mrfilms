@@ -1,74 +1,45 @@
 ---
-export type HeroBadge = { label: string };
-
 export interface HeroProps {
-	eyebrow: string;
 	title: string;
-	description: string;
-	primaryCta: { label: string; href: string };
-	secondaryCta: { label: string; href: string };
-	badges: HeroBadge[];
-	/** Imagen de fondo (ruta bajo /public, ej. /images/car-image.jpg) */
-	image?: { src: string; alt: string };
+	image: { src: string; alt: string };
+	/** Línea pequeña bajo el título (servicios / disciplinas) */
+	tagline?: string;
+	/** Ancla al hacer clic en SCROLL (p. ej. #portfolio) */
+	scrollHref?: string;
 }
 
 const {
-	eyebrow,
 	title,
-	description,
-	primaryCta,
-	secondaryCta,
-	badges,
-	image
+	image,
+	tagline = 'Photography - Videography - Design - AI Production',
+	scrollHref = '#portfolio'
 } = Astro.props as HeroProps;
 ---
 
-<section class:list={['hero', image && 'hero--with-bg']}>
-	{
-		image && (
-			<div class="hero-bg" aria-hidden="true">
-				<img
-					src={image.src}
-					alt={image.alt}
-					width="1920"
-					height="1080"
-					fetchpriority="high"
-					class="hero-bg-img"
-				/>
-			</div>
-		)
-	}
-	{image && <div class="hero-scrim" aria-hidden="true" />}
+<section class="hero hero--with-bg">
+	<div class="hero-bg" aria-hidden="true">
+		<img
+			src={image.src}
+			alt={image.alt}
+			width="1920"
+			height="1080"
+			fetchpriority="high"
+			class="hero-bg-img"
+		/>
+	</div>
+	<div class="hero-scrim" aria-hidden="true" />
 
-	<div class:list={['container', 'hero-inner', image && 'hero-inner--center']}>
-		{
-			image ? (
-				<>
-					<h1>{title}</h1>
-					<div class="eyebrow hero-eyebrow">{eyebrow}</div>
-					<p class="hero-lead">{description}</p>
-					<div class="hero-actions">
-						<a href={primaryCta.href} class="btn btn-primary">{primaryCta.label}</a>
-						<a href={secondaryCta.href} class="btn">{secondaryCta.label}</a>
-					</div>
-					<div class="badges">
-						{badges.map((b) => <span class="badge">{b.label}</span>)}
-					</div>
-				</>
-			) : (
-				<>
-					<div class="eyebrow">{eyebrow}</div>
-					<h1>{title}</h1>
-					<p>{description}</p>
-					<div class="hero-actions">
-						<a href={primaryCta.href} class="btn btn-primary">{primaryCta.label}</a>
-						<a href={secondaryCta.href} class="btn">{secondaryCta.label}</a>
-					</div>
-					<div class="badges">
-						{badges.map((b) => <span class="badge">{b.label}</span>)}
-					</div>
-				</>
-			)
-		}
+	<div class="hero-cover">
+		<div class="hero-cover__main">
+			<div class="container hero-inner hero-inner--center">
+				<h1>{title}</h1>
+				<div class="eyebrow hero-eyebrow">{tagline}</div>
+			</div>
+		</div>
+
+		<a href={scrollHref} class="hero-scroll" aria-label="Desplazar al portfolio">
+			<span class="hero-scroll__line" aria-hidden="true"></span>
+			<span class="hero-scroll__text">SCROLL</span>
+		</a>
 	</div>
 </section>

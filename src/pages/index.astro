@@ -25,27 +25,19 @@ import Footer from '../components/Footer.astro';
 	<body>
 		<Nav />
 		<main>
-			<Hero
-				eyebrow="Photography - Videography - Design - AI Production"
-				title="MR Films"
-				description="Contenido audiovisual premium para marcas que quieren verse en otro nivel. Combino narrativa cinematografica, ritmo comercial y direccion creativa para crear piezas que no solo se ven limpias: venden, posicionan y construyen marca."
-				image={{
-					src: '/images/car-image.jpg',
-					alt: 'MR Films — produccion audiovisual automotriz, vehiculo en escena cinematografica'
-				}}
-				primaryCta={{ label: 'Ver portfolio', href: '#portfolio' }}
-				secondaryCta={{ label: 'Trabajemos juntos', href: '#contact' }}
-				badges={[
-					{ label: 'Automotriz' },
-					{ label: 'Eventos' },
-					{ label: 'Moda' },
-					{ label: 'Corporativo' },
-					{ label: 'Redes sociales' },
-					{ label: 'Produccion con IA' }
-				]}
-			/>
+			<div class="home-intro">
+				<Hero
+					title="MR Films"
+					tagline="Photography - Videography - Design - AI Production"
+					image={{
+						src: '/images/MedellinCityPortada.jpg',
+						alt: 'MR Films — Medellin, ciudad y horizonte al atardecer'
+					}}
+					scrollHref="#portfolio"
+				/>
 
-			<ClientsMarquee />
+				<ClientsMarquee />
+			</div>
 			<PortfolioSection />
 			<AboutSection />
 			<ContactSection />
