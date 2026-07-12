@@ -1,50 +1,28 @@
 ---
 type HighlightVideo = {
   title: string;
-  videoSrc: string;
-  posterSrc: string;
+  /** El ID de YouTube: es lo que va después de "v=" en la URL del video.
+   *  Ej: https://www.youtube.com/watch?v=OTTS_X6VSsY -> el ID es "OTTS_X6VSsY" */
+  youtubeId: string;
 };
 
-type UpcomingPreview = {
-  title: string;
-  category: string;
-  previewSrc: string;
-};
-
-// Cambia estas 3 entradas por tus mejores videos (paths en /public/videos/highlights/...)
+// ============================================================
+// 👉 EDITA AQUÍ LOS 3 HIGHLIGHTS DEL INICIO
+// Reemplaza "youtubeId" por el ID real de cada video de YouTube.
+// De momento las 3 usan el mismo ID de ejemplo (Túnica en Dubai).
+// ============================================================
 const highlightVideos: HighlightVideo[] = [
   {
-    title: "Podium BC Event",
-    videoSrc: "/videos/highlights/podium-bc-event.mp4",
-    posterSrc: "/images/about-me/03.jpg",
-  },
-  {
-    title: "SF90 x G63 BRABUS",
-    videoSrc: "/videos/highlights/sf90-g63-brabus.mp4",
-    posterSrc: "/images/about-me/04.jpg",
-  },
-  {
-    title: "Legends Never Fade - AI Film",
-    videoSrc: "/videos/highlights/legends-never-fade.mp4",
-    posterSrc: "/images/about-me/05.jpg",
-  },
-];
-
-const upcomingPreviews: UpcomingPreview[] = [
-  {
     title: "Túnica en Dubai - Emmus",
-    category: "Video Musical",
-    previewSrc: "/images/about-me/01.jpg",
+    youtubeId: "OTTS_X6VSsY",
   },
   {
     title: "Rubia - Jhayozbb",
-    category: "Video Musical",
-    previewSrc: "/images/about-me/02.jpg",
+    youtubeId: "OTTS_X6VSsY", // TODO: reemplazar por el ID real de este video
   },
   {
     title: "Verte de nuevo - RiozG",
-    category: "Video Musical",
-    previewSrc: "/images/about-me/06.jpg",
+    youtubeId: "OTTS_X6VSsY", // TODO: reemplazar por el ID real de este video
   },
 ];
 ---
@@ -60,49 +38,50 @@ const upcomingPreviews: UpcomingPreview[] = [
         highlightVideos.map((video) => (
           <article class="portfolio-video-card">
             <div class="portfolio-video-frame">
-              <video
-                class="portfolio-video"
-                src={video.videoSrc}
-                poster={video.posterSrc}
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                controls
+              <button
+                class="yt-facade"
+                type="button"
+                data-yt-id={video.youtubeId}
+                aria-label={`Reproducir ${video.title}`}
               >
-                Tu navegador no soporta video HTML5.
-              </video>
+                <img
+                  class="yt-facade-thumb"
+                  src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`}
+                  alt={`${video.title} - miniatura`}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="yt-facade-play" aria-hidden="true" />
+              </button>
             </div>
             <h3 class="portfolio-video-title">{video.title}</h3>
           </article>
         ))
       }
     </div>
-
-    <div class="portfolio-upcoming">
-      <div class="section-head">
-        <h3 class="portfolio-upcoming-title">Proximamente</h3>
-      </div>
-
-      <div class="portfolio-upcoming-grid">
-        {
-          upcomingPreviews.map((item) => (
-            <article class="portfolio-upcoming-card">
-              <img
-                class="portfolio-upcoming-image"
-                src={item.previewSrc}
-                alt={`${item.title} - preview`}
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="portfolio-upcoming-meta">
-                <p class="portfolio-upcoming-category">{item.category}</p>
-                <h4 class="portfolio-upcoming-item-title">{item.title}</h4>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
   </div>
 </section>
+
+<script>
+  // Carga el iframe de YouTube solo cuando el usuario hace clic (no al cargar la página)
+  document.querySelectorAll<HTMLButtonElement>(".yt-facade").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.ytId;
+      if (!id) return;
+
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = "YouTube video player";
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute(
+        "allow",
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      );
+      iframe.setAttribute("allowfullscreen", "true");
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+
+      btn.replaceWith(iframe);
+    });
+  });
+</script>
