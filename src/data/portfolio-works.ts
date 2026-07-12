@@ -1,5 +1,11 @@
 /** Categorías para filtros (coinciden con data-category en las cards) */
-export type PortfolioWorkCategory = 'video' | 'foto' | 'diseno' | 'ia';
+export type PortfolioWorkCategory =
+	| 'automotriz'
+	| 'eventos'
+	| 'musical'
+	| 'foto'
+	| 'diseno'
+	| 'ia';
 
 export interface PortfolioWork {
 	slug: string;
@@ -14,12 +20,17 @@ export interface PortfolioWork {
 
 /**
  * Lista completa de trabajos para /portfolio.
- * Edita aquí: imágenes en /public/..., categorías y textos.
+ * ============================================================
+ * 👉 EDITA AQUÍ para agregar, quitar o mover trabajos.
+ * - thumb: ruta de la imagen (colócala en /public/images/... y referencia igual que abajo)
+ * - category: debe ser una de las de PortfolioWorkCategory de arriba
+ * - href: opcional, link externo (YouTube, Behance, etc.)
+ * ============================================================
  */
 export const portfolioWorks: PortfolioWork[] = [
 	{
 		slug: 'porsche-gt3',
-		category: 'video',
+		category: 'automotriz',
 		title: 'Porsche GT3',
 		subtitle: 'Videos automotrices',
 		tags: 'Cinematic / Speedramp',
@@ -27,7 +38,7 @@ export const portfolioWorks: PortfolioWork[] = [
 	},
 	{
 		slug: 'ferrari-296',
-		category: 'video',
+		category: 'automotriz',
 		title: 'Ferrari 296 GTS',
 		subtitle: 'Videos automotrices',
 		tags: 'Cinematic / Speedramps',
@@ -35,19 +46,28 @@ export const portfolioWorks: PortfolioWork[] = [
 	},
 	{
 		slug: 'supercars',
-		category: 'video',
+		category: 'automotriz',
 		title: 'Supercars',
 		subtitle: 'Videos automotrices',
 		tags: 'Cinematic / detalle',
 		thumb: '/images/about-me/05.jpg'
 	},
 	{
-		slug: 'lifestyle-set',
-		category: 'foto',
-		title: 'Lifestyle',
-		subtitle: 'Fotografía',
-		tags: 'Editorial / marca',
-		thumb: '/images/about-me/01.jpg'
+		slug: 'podium-bc-event',
+		category: 'eventos',
+		title: 'Podium BC Event',
+		subtitle: 'Cobertura de eventos',
+		tags: 'Evento / cobertura completa',
+		thumb: '/images/DSC01204.jpg'
+	},
+	{
+		slug: 'tunica-en-dubai',
+		category: 'musical',
+		title: 'Túnica en Dubai - Emmus',
+		subtitle: 'Video musical',
+		tags: 'Dirección / edición',
+		thumb: '/images/about-me/01.jpg',
+		href: 'https://www.youtube.com/watch?v=OTTS_X6VSsY'
 	},
 	{
 		slug: 'medellin-noche',
