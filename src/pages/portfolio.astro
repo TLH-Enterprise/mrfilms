@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 
+import { Image } from 'astro:assets';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import FaviconLinks from '../components/FaviconLinks.astro';
@@ -71,13 +72,14 @@ const filters = [
 										rel="noreferrer"
 									>
 										<div class="portfolio-work-thumb">
-											<img
+											<Image
 												src={w.thumb}
 												alt=""
 												loading="lazy"
 												decoding="async"
-												width="640"
-												height="360"
+												width={640}
+												format="webp"
+												quality={75}
 											/>
 											{w.href && (
 												<span class="portfolio-work-play" aria-hidden="true" />
@@ -92,13 +94,14 @@ const filters = [
 								) : (
 									<div class="portfolio-work-link">
 										<div class="portfolio-work-thumb">
-											<img
+											<Image
 												src={w.thumb}
 												alt=""
 												loading="lazy"
 												decoding="async"
-												width="640"
-												height="360"
+												width={640}
+												format="webp"
+												quality={75}
 											/>
 											{w.href && (
 												<span class="portfolio-work-play" aria-hidden="true" />

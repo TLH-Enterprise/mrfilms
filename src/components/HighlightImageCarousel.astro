@@ -1,0 +1,102 @@
+---
+interface Props {
+	images: string[];
+}
+
+const { images } = Astro.props;
+const hasMany = images.length > 1;
+---
+
+<div class="highlight-carousel" data-highlight-carousel={hasMany ? true : undefined}>
+	{images[0] && (
+		<img
+			class="highlight-carousel__layer highlight-carousel__layer--a is-visible"
+			src={images[0]}
+			alt=""
+			loading="lazy"
+			decoding="async"
+		/>
+	)}
+	{hasMany && (
+		<img class="highlight-carousel__layer highlight-carousel__layer--b" alt="" loading="lazy" decoding="async" />
+	)}
+</div>
+
+{
+	hasMany && (
+		<script define:vars={{ imagePaths: images }}>
+			function initHighlightCarousel(root) {
+				const list = imagePaths;
+				if (!list || list.length < 2) return;
+
+				const a = root.querySelector('.highlight-carousel__layer--a');
+				const b = root.querySelector('.highlight-carousel__layer--b');
+				if (!(a instanceof HTMLImageElement) || !(b instanceof HTMLImageElement)) return;
+
+				const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+				const intervalMs = reduced ? 0 : 4000;
+
+				let idx = 0;
+				let showingA = true;
+
+				function showNext() {
+					idx = (idx + 1) % list.length;
+					const incoming = showingA ? b : a;
+					const outgoing = showingA ? a : b;
+					incoming.removeAttribute('src');
+					incoming.src = list[idx] ?? '';
+					incoming.onload = () => {
+						incoming.classList.add('is-visible');
+						outgoing.classList.remove('is-visible');
+						showingA = !showingA;
+					};
+				}
+
+				let timer;
+				function start() {
+					if (intervalMs <= 0) return;
+					timer = setInterval(showNext, intervalMs);
+				}
+				function stop() {
+					if (timer) clearInterval(timer);
+					timer = undefined;
+				}
+
+				start();
+				document.addEventListener('visibilitychange', () => {
+					if (document.hidden) stop();
+					else start();
+				});
+			}
+
+			document
+				.querySelectorAll('[data-highlight-carousel]')
+				.forEach((root) => initHighlightCarousel(root));
+		</script>
+	)
+}
+
+<style>
+	.highlight-carousel {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.highlight-carousel__layer {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: center;
+		opacity: 0;
+		transition: opacity 1s ease;
+		z-index: 0;
+	}
+
+	.highlight-carousel__layer.is-visible {
+		opacity: 1;
+		z-index: 1;
+	}
+</style>

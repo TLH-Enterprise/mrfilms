@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 export interface HeroProps {
 	title: string;
-	image: { src: string; alt: string };
+	image: { src: ImageMetadata; alt: string };
 	/** Línea pequeña bajo el título (servicios / disciplinas) */
 	tagline?: string;
 	/** Ancla al hacer clic en SCROLL (p. ej. #portfolio) */
@@ -18,12 +21,16 @@ const {
 
 <section class="hero hero--with-bg">
 	<div class="hero-bg" aria-hidden="true">
-		<img
+		<Image
 			src={image.src}
 			alt={image.alt}
-			width="1920"
-			height="1080"
+			width={1920}
+			widths={[640, 960, 1280, 1920, 2560, 3840]}
+			sizes="100vw"
+			format="webp"
+			quality={82}
 			fetchpriority="high"
+			loading="eager"
 			class="hero-bg-img"
 		/>
 	</div>
