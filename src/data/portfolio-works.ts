@@ -1,3 +1,14 @@
+import type { ImageMetadata } from 'astro';
+
+import img01 from '../assets/about-me/01.jpg';
+import img02 from '../assets/about-me/02.jpg';
+import img03 from '../assets/about-me/03.jpg';
+import img04 from '../assets/about-me/04.jpg';
+import img05 from '../assets/about-me/05.jpg';
+import img06 from '../assets/about-me/06.jpg';
+import dsc01204 from '../assets/DSC01204.jpg';
+import medellinCityPortada from '../assets/MedellinCityPortada.jpg';
+
 /** Categorías para filtros (coinciden con data-category en las cards) */
 export type PortfolioWorkCategory =
 	| 'automotriz'
@@ -13,7 +24,7 @@ export interface PortfolioWork {
 	title: string;
 	subtitle: string;
 	tags: string;
-	thumb: string;
+	thumb: ImageMetadata;
 	/** Enlace opcional al proyecto (video, Behance, etc.) */
 	href?: string;
 }
@@ -22,7 +33,7 @@ export interface PortfolioWork {
  * Lista completa de trabajos para /portfolio.
  * ============================================================
  * 👉 EDITA AQUÍ para agregar, quitar o mover trabajos.
- * - thumb: ruta de la imagen (colócala en /public/images/... y referencia igual que abajo)
+ * - thumb: importa la imagen desde /src/assets/... (Astro la optimiza en build)
  * - category: debe ser una de las de PortfolioWorkCategory de arriba
  * - href: opcional, link externo (YouTube, Behance, etc.)
  * ============================================================
@@ -34,7 +45,7 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Porsche GT3',
 		subtitle: 'Videos automotrices',
 		tags: 'Cinematic / Speedramp',
-		thumb: '/images/about-me/03.jpg'
+		thumb: img03
 	},
 	{
 		slug: 'ferrari-296',
@@ -42,7 +53,7 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Ferrari 296 GTS',
 		subtitle: 'Videos automotrices',
 		tags: 'Cinematic / Speedramps',
-		thumb: '/images/about-me/04.jpg'
+		thumb: img04
 	},
 	{
 		slug: 'supercars',
@@ -50,7 +61,7 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Supercars',
 		subtitle: 'Videos automotrices',
 		tags: 'Cinematic / detalle',
-		thumb: '/images/about-me/05.jpg'
+		thumb: img05
 	},
 	{
 		slug: 'podium-bc-event',
@@ -58,7 +69,7 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Podium BC Event',
 		subtitle: 'Cobertura de eventos',
 		tags: 'Evento / cobertura completa',
-		thumb: '/images/DSC01204.jpg'
+		thumb: dsc01204
 	},
 	{
 		slug: 'tunica-en-dubai',
@@ -66,7 +77,7 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Túnica en Dubai - Emmus',
 		subtitle: 'Video musical',
 		tags: 'Dirección / edición',
-		thumb: '/images/about-me/01.jpg',
+		thumb: img01,
 		href: 'https://www.youtube.com/watch?v=OTTS_X6VSsY'
 	},
 	{
@@ -75,7 +86,7 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Ciudad nocturna',
 		subtitle: 'Fotografía',
 		tags: 'Urban / mood',
-		thumb: '/images/MedellinCityPortada.jpg'
+		thumb: medellinCityPortada
 	},
 	{
 		slug: 'brand-visual',
@@ -83,7 +94,7 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Identidad visual',
 		subtitle: 'Diseño',
 		tags: 'Branding / piezas',
-		thumb: '/images/about-me/02.jpg'
+		thumb: img02
 	},
 	{
 		slug: 'ai-concept',
@@ -91,6 +102,6 @@ export const portfolioWorks: PortfolioWork[] = [
 		title: 'Concept IA',
 		subtitle: 'Producción con IA',
 		tags: 'Dirección creativa',
-		thumb: '/images/about-me/06.jpg'
+		thumb: img06
 	}
 ];

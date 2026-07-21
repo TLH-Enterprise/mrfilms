@@ -1,30 +1,55 @@
 ---
-type HighlightVideo = {
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import HighlightImageCarousel from '../HighlightImageCarousel.astro';
+import { getHighlightsCarouselImageUrls } from '../../lib/highlights-carousel-images';
+import weddingPoster from '../../assets/highlights-video/poster.jpg';
+
+type YoutubeHighlight = {
+  kind: "youtube";
   title: string;
   /** El ID de YouTube: es lo que va después de "v=" en la URL del video.
    *  Ej: https://www.youtube.com/watch?v=OTTS_X6VSsY -> el ID es "OTTS_X6VSsY" */
   youtubeId: string;
 };
 
+type CarouselHighlight = {
+  kind: "carousel";
+  title: string;
+};
+
+type VideoHighlight = {
+  kind: "video";
+  title: string;
+  /** Ruta pública del video ya comprimido (en public/videos/highlights/) */
+  src: string;
+  poster: ImageMetadata;
+};
+
+type Highlight = YoutubeHighlight | CarouselHighlight | VideoHighlight;
+
 // ============================================================
 // 👉 EDITA AQUÍ LOS 3 HIGHLIGHTS DEL INICIO
-// Reemplaza "youtubeId" por el ID real de cada video de YouTube.
-// De momento las 3 usan el mismo ID de ejemplo (Túnica en Dubai).
 // ============================================================
-const highlightVideos: HighlightVideo[] = [
+const highlights: Highlight[] = [
   {
+    kind: "youtube",
     title: "Túnica en Dubai - Emmus",
     youtubeId: "OTTS_X6VSsY",
   },
   {
-    title: "Rubia - Jhayozbb",
-    youtubeId: "OTTS_X6VSsY", // TODO: reemplazar por el ID real de este video
+    kind: "carousel",
+    title: "Fotografía", // TODO: editar título si quieres otro
   },
   {
-    title: "Verte de nuevo - RiozG",
-    youtubeId: "OTTS_X6VSsY", // TODO: reemplazar por el ID real de este video
+    kind: "video",
+    title: "Boda Tati & Nico",
+    src: "/videos/highlights/boda-ttati-nico.mp4",
+    poster: weddingPoster,
   },
 ];
+
+const carouselImages = await getHighlightsCarouselImageUrls();
 ---
 
 <section id="portfolio" class="portfolio-zone">
@@ -35,26 +60,49 @@ const highlightVideos: HighlightVideo[] = [
 
     <div class="portfolio-highlights">
       {
-        highlightVideos.map((video) => (
+        highlights.map((item) => (
           <article class="portfolio-video-card">
             <div class="portfolio-video-frame">
-              <button
-                class="yt-facade"
-                type="button"
-                data-yt-id={video.youtubeId}
-                aria-label={`Reproducir ${video.title}`}
-              >
-                <img
-                  class="yt-facade-thumb"
-                  src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`}
-                  alt={`${video.title} - miniatura`}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span class="yt-facade-play" aria-hidden="true" />
-              </button>
+              {item.kind === "youtube" ? (
+                <button
+                  class="yt-facade"
+                  type="button"
+                  data-yt-id={item.youtubeId}
+                  aria-label={`Reproducir ${item.title}`}
+                >
+                  <img
+                    class="yt-facade-thumb"
+                    src={`https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg`}
+                    alt={`${item.title} - miniatura`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="yt-facade-play" aria-hidden="true" />
+                </button>
+              ) : item.kind === "video" ? (
+                <button
+                  class="yt-facade"
+                  type="button"
+                  data-video-src={item.src}
+                  aria-label={`Reproducir ${item.title}`}
+                >
+                  <Image
+                    class="yt-facade-thumb"
+                    src={item.poster}
+                    alt={`${item.title} - miniatura`}
+                    width={640}
+                    format="webp"
+                    quality={75}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="yt-facade-play" aria-hidden="true" />
+                </button>
+              ) : (
+                <HighlightImageCarousel images={carouselImages} />
+              )}
             </div>
-            <h3 class="portfolio-video-title">{video.title}</h3>
+            <h3 class="portfolio-video-title">{item.title}</h3>
           </article>
         ))
       }
@@ -63,25 +111,36 @@ const highlightVideos: HighlightVideo[] = [
 </section>
 
 <script>
-  // Carga el iframe de YouTube solo cuando el usuario hace clic (no al cargar la página)
+  // Carga el video (YouTube o propio) solo cuando el usuario hace clic (no al cargar la página)
   document.querySelectorAll<HTMLButtonElement>(".yt-facade").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const id = btn.dataset.ytId;
-      if (!id) return;
+      if (btn.dataset.ytId) {
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.ytId}?autoplay=1&rel=0`;
+        iframe.title = "YouTube video player";
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute(
+          "allow",
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        );
+        iframe.setAttribute("allowfullscreen", "true");
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
 
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
-      iframe.title = "YouTube video player";
-      iframe.setAttribute("frameborder", "0");
-      iframe.setAttribute(
-        "allow",
-        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      );
-      iframe.setAttribute("allowfullscreen", "true");
-      iframe.style.width = "100%";
-      iframe.style.height = "100%";
+        btn.replaceWith(iframe);
+        return;
+      }
 
-      btn.replaceWith(iframe);
+      if (btn.dataset.videoSrc) {
+        const video = document.createElement("video");
+        video.src = btn.dataset.videoSrc;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.className = "portfolio-video";
+
+        btn.replaceWith(video);
+      }
     });
   });
 </script>
