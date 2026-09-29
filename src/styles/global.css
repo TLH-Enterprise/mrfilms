@@ -191,6 +191,35 @@ section {
 	filter: brightness(1.08) saturate(1.03);
 }
 
+/* Video de YouTube de fondo: cubre el hero como object-fit: cover */
+.hero-bg {
+	container-type: size;
+}
+
+.hero-video {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.8s ease;
+}
+
+.hero-video.is-playing {
+	opacity: 1;
+}
+
+.hero-video iframe {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: max(100cqw, 177.78cqh);
+	height: max(100cqh, 56.25cqw);
+	/* Escala extra para esconder bordes y marca de YouTube */
+	transform: translate(-50%, -50%) scale(1.15);
+	border: 0;
+}
+
 .hero-scrim {
 	position: absolute;
 	inset: 0;
@@ -264,7 +293,8 @@ section {
 }
 
 .hero-inner--center .eyebrow.hero-eyebrow {
-	max-width: min(52ch, 92vw);
+	max-width: min(64ch, 92vw);
+	text-wrap: balance;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -439,7 +469,7 @@ h2 {
 .marquee {
 	display: inline-block;
 	min-width: 100%;
-	animation: move 24s linear infinite;
+	animation: move 26s linear infinite;
 }
 
 @keyframes move {
@@ -612,53 +642,6 @@ h2 {
 .yt-facade:hover .yt-facade-play {
 	background: rgba(0, 0, 0, 0.75);
 	transform: translate(-50%, -50%) scale(1.08);
-}
-
-.portfolio-upcoming {
-	margin-top: 2.35rem;
-}
-
-.portfolio-upcoming-title {
-	font-size: 1.05rem;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-}
-
-.portfolio-upcoming-grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 1rem;
-}
-
-.portfolio-upcoming-card {
-	border: 1px solid var(--line);
-	border-radius: 10px;
-	overflow: hidden;
-	background: linear-gradient(180deg, var(--surface-2), var(--surface));
-}
-
-.portfolio-upcoming-image {
-	width: 100%;
-	aspect-ratio: 16 / 9;
-	object-fit: cover;
-	display: block;
-}
-
-.portfolio-upcoming-meta {
-	padding: 0.7rem 0.8rem 0.85rem;
-}
-
-.portfolio-upcoming-category {
-	font-size: 0.68rem;
-	text-transform: uppercase;
-	letter-spacing: 0.16em;
-	color: var(--muted);
-	margin-bottom: 0.35rem;
-}
-
-.portfolio-upcoming-item-title {
-	font-size: 0.95rem;
-	color: var(--text);
 }
 
 .clients-showcase {
@@ -1178,8 +1161,7 @@ a.portfolio-work-link:hover .portfolio-work-title {
 		grid-column: span 12;
 	}
 
-	.portfolio-highlights,
-	.portfolio-upcoming-grid {
+	.portfolio-highlights {
 		grid-template-columns: 1fr;
 	}
 

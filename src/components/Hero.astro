@@ -9,13 +9,16 @@ export interface HeroProps {
 	tagline?: string;
 	/** Ancla al hacer clic en SCROLL (p. ej. #portfolio) */
 	scrollHref?: string;
+	/** IDs de YouTube que se alternan de fondo (la imagen queda como respaldo mientras cargan) */
+	videos?: string[];
 }
 
 const {
 	title,
 	image,
-	tagline = 'Photography - Videography - Design - AI Production',
-	scrollHref = '#portfolio'
+	tagline = 'Fotografía - Video - Diseño - Producción con IA',
+	scrollHref = '#portfolio',
+	videos = []
 } = Astro.props as HeroProps;
 ---
 
@@ -33,6 +36,11 @@ const {
 			loading="eager"
 			class="hero-bg-img"
 		/>
+		{videos.length > 0 && (
+			<div class="hero-video" data-hero-videos={JSON.stringify(videos)}>
+				<div class="hero-video__player" />
+			</div>
+		)}
 	</div>
 	<div class="hero-scrim" aria-hidden="true" />
 
@@ -44,9 +52,74 @@ const {
 			</div>
 		</div>
 
-		<a href={scrollHref} class="hero-scroll" aria-label="Desplazar a la sección portfolio en esta página">
+		<a href={scrollHref} class="hero-scroll" aria-label="Desplazar a la sección de portafolio en esta página">
 			<span class="hero-scroll__line" aria-hidden="true"></span>
-			<span class="hero-scroll__text">SCROLL</span>
+			<span class="hero-scroll__text">DESLIZA</span>
 		</a>
 	</div>
 </section>
+
+<script>
+	(() => {
+		const wrap = document.querySelector<HTMLElement>('[data-hero-videos]');
+		if (!wrap) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const ids: string[] = JSON.parse(wrap.dataset.heroVideos || '[]');
+		const target = wrap.querySelector<HTMLElement>('.hero-video__player');
+		if (!ids.length || !target) return;
+
+		let index = 0;
+		const w = window as any;
+
+		const start = () => {
+			const YT = w.YT;
+			const player = new YT.Player(target, {
+				videoId: ids[index],
+				playerVars: {
+					autoplay: 1,
+					mute: 1,
+					controls: 0,
+					disablekb: 1,
+					fs: 0,
+					iv_load_policy: 3,
+					playsinline: 1,
+					rel: 0
+				},
+				events: {
+					onReady: (e: any) => {
+						e.target.mute();
+						e.target.playVideo();
+					},
+					onStateChange: (e: any) => {
+						if (e.data === YT.PlayerState.PLAYING) wrap.classList.add('is-playing');
+						// Al terminar, pasa al siguiente video (alterna en bucle)
+						if (e.data === YT.PlayerState.ENDED) {
+							index = (index + 1) % ids.length;
+							player.loadVideoById(ids[index]);
+						}
+					},
+					// Si un video no se puede reproducir, salta al siguiente
+					onError: () => {
+						if (ids.length < 2) return;
+						index = (index + 1) % ids.length;
+						player.loadVideoById(ids[index]);
+					}
+				}
+			});
+		};
+
+		if (w.YT?.Player) {
+			start();
+		} else {
+			const prev = w.onYouTubeIframeAPIReady;
+			w.onYouTubeIframeAPIReady = () => {
+				prev?.();
+				start();
+			};
+			const tag = document.createElement('script');
+			tag.src = 'https://www.youtube.com/iframe_api';
+			document.head.appendChild(tag);
+		}
+	})();
+</script>

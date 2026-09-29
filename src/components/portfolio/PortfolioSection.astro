@@ -3,7 +3,9 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import HighlightImageCarousel from '../HighlightImageCarousel.astro';
 import { getHighlightsCarouselImageUrls } from '../../lib/highlights-carousel-images';
-import weddingPoster from '../../assets/highlights-video/poster.jpg';
+import bodaPoster from '../../assets/highlights-video/boda-tati-nico.jpg';
+import sesionPoster from '../../assets/highlights-video/sesion-camilo-film.jpg';
+import desbarePoster from '../../assets/highlights-video/el-desbare-la-ceja.jpg';
 
 type YoutubeHighlight = {
   kind: "youtube";
@@ -33,19 +35,22 @@ type Highlight = YoutubeHighlight | CarouselHighlight | VideoHighlight;
 // ============================================================
 const highlights: Highlight[] = [
   {
-    kind: "youtube",
-    title: "Túnica en Dubai - Emmus",
-    youtubeId: "OTTS_X6VSsY",
-  },
-  {
-    kind: "carousel",
-    title: "Fotografía", // TODO: editar título si quieres otro
+    kind: "video",
+    title: "Boda Tati & Nico",
+    src: "/videos/highlights/boda-tati-nico.mp4",
+    poster: bodaPoster,
   },
   {
     kind: "video",
-    title: "Boda Tati & Nico",
-    src: "/videos/highlights/boda-ttati-nico.mp4",
-    poster: weddingPoster,
+    title: "Detrás de cámaras - Sesión Camilo Film",
+    src: "/videos/highlights/sesion-camilo-film.mp4",
+    poster: sesionPoster,
+  },
+  {
+    kind: "video",
+    title: "El Desbare - La Ceja",
+    src: "/videos/highlights/el-desbare-la-ceja.mp4",
+    poster: desbarePoster,
   },
 ];
 
@@ -55,7 +60,7 @@ const carouselImages = await getHighlightsCarouselImageUrls();
 <section id="portfolio" class="portfolio-zone">
   <div class="container">
     <div class="portfolio-headline-action">
-      <a class="portfolio-pill" href="/portfolio">Ver portfolio</a>
+      <a class="portfolio-pill" href="/portfolio">Ver portafolio</a>
     </div>
 
     <div class="portfolio-highlights">
