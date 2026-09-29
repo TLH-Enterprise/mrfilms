@@ -6,6 +6,7 @@ import { getHighlightsCarouselImageUrls } from '../../lib/highlights-carousel-im
 import bodaPoster from '../../assets/highlights-video/boda-tati-nico.jpg';
 import sesionPoster from '../../assets/highlights-video/sesion-camilo-film.jpg';
 import desbarePoster from '../../assets/highlights-video/el-desbare-la-ceja.jpg';
+import mellizosPoster from '../../assets/highlights-video/15-anos-mellizos.jpg';
 
 type YoutubeHighlight = {
   kind: "youtube";
@@ -31,7 +32,7 @@ type VideoHighlight = {
 type Highlight = YoutubeHighlight | CarouselHighlight | VideoHighlight;
 
 // ============================================================
-// 👉 EDITA AQUÍ LOS 3 HIGHLIGHTS DEL INICIO
+// 👉 EDITA AQUÍ LOS HIGHLIGHTS DEL INICIO
 // ============================================================
 const highlights: Highlight[] = [
   {
@@ -51,6 +52,12 @@ const highlights: Highlight[] = [
     title: "El Desbare - La Ceja",
     src: "/videos/highlights/el-desbare-la-ceja.mp4",
     poster: desbarePoster,
+  },
+  {
+    kind: "video",
+    title: "15 Años Mellizos",
+    src: "/videos/highlights/15-anos-mellizos.mp4",
+    poster: mellizosPoster,
   },
 ];
 
