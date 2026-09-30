@@ -62,6 +62,9 @@ const highlights: Highlight[] = [
 ];
 
 const carouselImages = await getHighlightsCarouselImageUrls();
+
+// Súbelo cuando reemplaces un video para que los navegadores no usen la versión vieja en caché
+const VIDEO_VERSION = 2;
 ---
 
 <section id="portfolio" class="portfolio-zone">
@@ -95,7 +98,7 @@ const carouselImages = await getHighlightsCarouselImageUrls();
                 <button
                   class="yt-facade"
                   type="button"
-                  data-video-src={item.src}
+                  data-video-src={`${item.src}?v=${VIDEO_VERSION}`}
                   aria-label={`Reproducir ${item.title}`}
                 >
                   <Image
